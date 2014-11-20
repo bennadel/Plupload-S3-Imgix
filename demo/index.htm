@@ -1,0 +1,102 @@
+<!doctype html>
+<html ng-app="PluploadApp">
+<head>
+	<meta charset="utf-8" />
+
+	<title>
+		Using Plupload With Amazon S3 And Imgix In AngularJS
+	</title>
+
+	<link rel="stylesheet" type="text/css" href="css/app.css"></link>
+</head>
+<body ng-controller="HomeController">
+
+	<h1>
+		Using Plupload With Amazon S3 And Imgix In AngularJS
+	</h1>
+
+
+	<!-- BEGIN: Global Uploader. -->
+	<div 
+		bn-global-uploader 
+		class="m-global-uploader"
+		ng-class="{ active: queue.length }">
+
+		<ul class="queue">
+			<li 
+				ng-repeat="item in queue track by item.id" 
+				class="item">
+
+				{{ item.percent }}%
+
+			</li>
+		</ul>
+
+	</div>
+	<!-- END: Global Uploader. -->
+
+
+	<!-- BEGIN: Local Dropzone. -->
+	<div 
+		bn-dropzone="saveFiles( files )"
+		class="m-dropzone">
+		
+		<div class="instructions">
+			<span class="ready">Drag &amp; Drop Images</span>
+			<span class="hold">Preparing Upload...</span>
+		</div>
+
+	</div>
+	<!-- END: Local Dropzone. -->
+
+
+	<!-- BEGIN: Image List. -->
+	<ul class="m-images">
+		<li 
+			ng-repeat="image in images" 
+			class="image">
+
+			<div ng-switch="image.isPlaceHolder" class="thumbnail">
+				<span ng-switch-when="true">Uploading...</span>
+				<img ng-switch-when="false" ng-src="{{ image.thumbnailUrl }}" />
+			</div>
+
+			<div class="name">
+				{{ image.clientFile }}
+			</div>
+
+			<a ng-click="deleteImage( image )" class="delete">&times;</a>
+
+		</li>
+	</ul>
+	<!-- END: Image List. -->
+
+
+	<!-- BEGIN: On The Fly Image Manipulation. -->
+	<div ng-if="images.length">
+		<a ng-click="useNormalThumb()">Normal Thumb</a> &nbsp;|&nbsp;
+		<a ng-click="useSepiaThumb()">Sepia Thumb</a> &nbsp;|&nbsp;
+		<a ng-click="useMonoThumb()">Monochromatic Thumb</a> &nbsp;|&nbsp;
+		<a ng-click="usePixelateThumb()">Pixelate Thumb</a>
+	</div>
+	<!-- END: On The Fly Image Manipulation. -->
+
+
+	<!-- Vendor Scripts. -->
+	<script type="text/javascript" src="vendor/jquery/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="vendor/angular/angular-1.2.26.min.js"></script>
+	<script type="text/javascript" src="vendor/plupload/plupload.full.min.js"></script>
+	<script type="text/javascript" src="vendor/lodash/lodash-2.4.1.min.js"></script>
+
+	<!-- Application Scripts. -->
+	<script type="text/javascript" src="app/app.js"></script>
+	<script type="text/javascript" src="app/dropzone/dropzone-directive.js"></script>
+	<script type="text/javascript" src="app/global-uploader/global-uploader-directive.js"></script>
+	<script type="text/javascript" src="app/home/home-controller.js"></script>
+	<script type="text/javascript" src="app/services/image-service.js"></script>
+	<script type="text/javascript" src="app/services/lodash-service.js"></script>
+	<script type="text/javascript" src="app/services/natural-sort-service.js"></script>
+	<script type="text/javascript" src="app/services/plupload-service.js"></script>
+
+</body>
+</html>
